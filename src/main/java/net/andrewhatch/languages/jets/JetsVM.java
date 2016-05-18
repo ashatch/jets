@@ -29,6 +29,13 @@ class JetsVM extends JetsBaseListener {
     position -= Integer.valueOf(number.getText());
   }
 
+  @Override public void exitDeclaration(@NotNull JetsParser.DeclarationContext ctx) {
+    String variableName = ctx.Var().getText();
+    String value = ctx.assignedValue.getText();
+    logger.trace("variable {} assigned to {}", variableName, value);
+  }
+
+
   int getPosition() {
     return position;
   }

@@ -5,20 +5,35 @@ prog
   ;
 
 cmd
-  : fd
+  : (fd
   | bk
+  | declaration) ';'
   ;
 
 fd
-   : ('fd' | 'forward')  number
+   : ('fd' | 'forward') number
    ;
 
 bk
    : ('bk' | 'backward') number
    ;
 
+declaration : 'String' variable=Var '=' assignedValue=STRING;
+
 number
    : NUMBER
+   ;
+
+Var
+   : IDENTIFIER
+   ;
+
+STRING
+   : '"' (~ ["\\])* '"'
+   ;
+
+IDENTIFIER
+   : [A-Za-z] +
    ;
 
 NUMBER
