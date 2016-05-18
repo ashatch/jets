@@ -1,25 +1,36 @@
 package net.andrewhatch.languages.jets;
 
 import org.antlr.v4.runtime.misc.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class JetsVM extends JetsBaseListener {
+import javax.inject.Inject;
 
-    private int position = 0;
+class JetsVM extends JetsBaseListener {
 
-    @Override
-    public void exitFd(@NotNull JetsParser.FdContext ctx) {
-        JetsParser.NumberContext number = ctx.number();
-        position += Integer.valueOf(number.getText());
-    }
+  private static final Logger logger = LoggerFactory.getLogger(JetsVM.class);
 
-    @Override
-    public void exitBk(@NotNull JetsParser.BkContext ctx) {
-        JetsParser.NumberContext number = ctx.number();
-        position -= Integer.valueOf(number.getText());
-    }
+  private int position = 0;
 
-    public int getPosition() {
-        return position;
-    }
+  @Inject
+  public JetsVM() {
+    logger.info("Starting JetsVM");
+  }
+
+  @Override
+  public void exitFd(@NotNull JetsParser.FdContext ctx) {
+    JetsParser.NumberContext number = ctx.number();
+    position += Integer.valueOf(number.getText());
+  }
+
+  @Override
+  public void exitBk(@NotNull JetsParser.BkContext ctx) {
+    JetsParser.NumberContext number = ctx.number();
+    position -= Integer.valueOf(number.getText());
+  }
+
+  int getPosition() {
+    return position;
+  }
 }
 

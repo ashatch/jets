@@ -7,6 +7,8 @@ import net.andrewhatch.languages.jets.modules.CommandLineModule;
 import net.andrewhatch.languages.jets.modules.JetsModule;
 
 import org.antlr.v4.runtime.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
@@ -15,6 +17,7 @@ import javax.inject.Named;
 
 
 public class Jets {
+  private static final Logger logger = LoggerFactory.getLogger(Jets.class);
 
   @Inject
   public Jets(@Named("jets.commandline.args") String... args) {
@@ -28,17 +31,20 @@ public class Jets {
       p.addParseListener(jetsVM);
       p.prog();
 
-      System.out.println("Moved to " + jetsVM.getPosition());
+      logger.info("Moved to {}", jetsVM.getPosition());
     } catch (IOException ioe) {
-      ioe.printStackTrace();
+      logger.error("IO fault", ioe);
     }
   }
 
   private static InputStream getInputStream(final String[] args) throws FileNotFoundException {
     if (args.length == 0) {
+      logger.info("Reading from STDIN");
       return System.in;
     } else {
-      return new FileInputStream(new File(args[0]));
+      final String filePath = args[0];
+      logger.info("Reading from {}", filePath);
+      return new FileInputStream(new File(filePath));
     }
   }
 
