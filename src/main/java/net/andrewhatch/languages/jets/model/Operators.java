@@ -8,7 +8,7 @@ public class Operators {
 
   static {
     operatorSymbolMap = new HashMap<>();
-    final ConcatentationOperator concat = new ConcatentationOperator();
+    final ConcatenationOperator concat = new ConcatenationOperator();
     operatorSymbolMap.put(concat.getSymbol(), concat);
   }
 

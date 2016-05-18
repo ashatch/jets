@@ -1,6 +1,6 @@
 package net.andrewhatch.languages.jets.model;
 
-class ConcatentationOperator implements Operator {
+class ConcatenationOperator implements Operator {
   @Override
   public String getSymbol() {
     return "+=";
