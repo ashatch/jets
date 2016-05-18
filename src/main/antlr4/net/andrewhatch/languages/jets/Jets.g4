@@ -7,7 +7,9 @@ prog
 cmd
   : (fd
   | bk
-  | declaration) ';'
+  | declaration
+  | modifier
+  | echo) ';'
   ;
 
 fd
@@ -20,9 +22,16 @@ bk
 
 declaration : 'String' variable=Var '=' assignedValue=STRING;
 
+modifier : variable=Var operator operand;
+
+echo : 'echo' variable=Var;
+
 number
    : NUMBER
    ;
+
+operator : '+=';
+operand : STRING;
 
 Var
    : IDENTIFIER

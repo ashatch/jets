@@ -20,14 +20,13 @@ public class Jets {
   private static final Logger logger = LoggerFactory.getLogger(Jets.class);
 
   @Inject
-  public Jets(@Named("jets.commandline.args") String... args) {
+  public Jets(JetsVM jetsVM,
+      @Named("jets.commandline.args") String... args) {
     try {
       final InputStream in = getInputStream(args);
       final JetsLexer l = new JetsLexer(new ANTLRInputStream(in));
       final JetsParser p = new JetsParser(new CommonTokenStream(l));
       p.addErrorListener(new JetsErrorListener());
-
-      JetsVM jetsVM = new JetsVM();
       p.addParseListener(jetsVM);
       p.prog();
 
