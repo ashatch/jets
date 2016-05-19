@@ -1,56 +1,31 @@
 grammar Jets;
 
-prog
-  : cmd + EOF
-  ;
+parse : cmd + EOF;
 
-cmd
-  : (fd
-  | bk
-  | declaration
-  | modifier
-  | echo) ';'
-  ;
+cmd :
+  (   declaration |
+      assignment  |
+      modifier    |
+      echo
+  ) ';';
 
-fd
-   : ('fd' | 'forward') number
-   ;
-
-bk
-   : ('bk' | 'backward') number
-   ;
-
-declaration : 'String' variable=Var '=' assignedValue=STRING;
-
+declaration : 'String' variable=Var OP_ASSIGNMENT assignedValue=STRING;
+assignment : variable=Var OP_ASSIGNMENT assignedValue=STRING;
 modifier : variable=Var operator operand;
-
 echo : 'echo' variable=Var;
 
-number
-   : NUMBER
-   ;
-
-operator : '+=';
+number : NUMBER ;
+operator : OP_CONCATENATE;
 operand : STRING;
 
-Var
-   : IDENTIFIER
-   ;
+Var : IDENTIFIER;
 
-STRING
-   : '"' (~ ["\\])* '"'
-   ;
+STRING : '"' (~ ["\\])* '"' ;
+IDENTIFIER : [A-Za-z]+ ;
+NUMBER : [0-9]+ ;
 
-IDENTIFIER
-   : [A-Za-z] +
-   ;
+OP_CONCATENATE: '+=' ;
+OP_ASSIGNMENT: '=' ;
 
-NUMBER
-   : [0-9] +
-   ;
-
-WS : [ \n\r\t\u000B\u000C\u0000]+				-> channel(HIDDEN) ;
-
-EOL
-   : '\r'? '\n'
-   ;
+WS : [ \n\r\t\u000B\u000C\u0000]+    -> channel(HIDDEN) ;
+EOL : '\r'? '\n' ;

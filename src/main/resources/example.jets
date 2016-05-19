@@ -1,6 +1,5 @@
-forward 13;
-fd 2;
-bk 5;
 String a = "test";
+a = "blah";
 a += " thing" ;
+
 echo a;

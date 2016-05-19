@@ -28,9 +28,7 @@ public class Jets {
       final JetsParser p = new JetsParser(new CommonTokenStream(l));
       p.addErrorListener(new JetsErrorListener());
       p.addParseListener(jetsVM);
-      p.prog();
-
-      logger.info("Moved to {}", jetsVM.getPosition());
+      p.parse();
     } catch (IOException ioe) {
       logger.error("IO fault", ioe);
     }
