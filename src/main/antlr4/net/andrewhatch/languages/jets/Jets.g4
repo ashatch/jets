@@ -12,7 +12,7 @@ cmd
   | echo) ';'
   ;
 
-declaration : 'String' variable=Var '=' assignedValue=STRING;
+declaration : type=Type variable=Var '=' assignedValue=STRING;
 
 assignment : variable=Var '=' assignedValue=STRING;
 
@@ -30,6 +30,8 @@ operand : STRING;
 Var
    : IDENTIFIER
    ;
+
+Type : 'String' | 'Integer';
 
 STRING
    : '"' (~ ["\\])* '"'
