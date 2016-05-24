@@ -1,5 +1,12 @@
-String a = "test";
-a = "blah";
-a += " thing" ;
+String z = "boo";
+echo z;
 
+String a = "test";
+a = "test 2";
+a += " thing";
 echo a;
+
+Integer b = 3;
+b = 4;
+b += 1;
+echo b;
