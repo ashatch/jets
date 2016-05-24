@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
-public class JetsVM extends JetsBaseListener {
+public class JetsVM extends JetsParserBaseListener {
 
   private static final Logger logger = LoggerFactory.getLogger(JetsVM.class);
   private final SymbolTable symbolTable;
@@ -26,16 +26,16 @@ public class JetsVM extends JetsBaseListener {
   @Override public void exitDeclaration(@NotNull JetsParser.DeclarationContext ctx) {
     String type = ctx.Type().getText();
     String variableName = ctx.Var().getText();
-    String value = stripQuotes(ctx.assignedValue.getText());
+    String value = ctx.assignedValue.getText();
     Symbol<?> symbol = createSymbol(type, variableName, value);
     symbolTable.addSymbol(symbol);
     logger.trace("variable {} assigned to {}", variableName, value);
   }
 
   private Symbol<?> createSymbol(final String type, final String variableName, final String value) {
-    switch (variableName) {
+    switch (type) {
       case "String": {
-        return new Symbol<>(variableName, new JetValue<String>().withValue(value));
+        return new Symbol<>(variableName, new JetValue<String>().withValue(stripQuotes(value)));
       }
       case "Integer": {
         return new Symbol<>(variableName, new JetValue<Integer>().withValue(Integer.valueOf(value)));
@@ -47,7 +47,7 @@ public class JetsVM extends JetsBaseListener {
 
   @Override public void exitAssignment(@NotNull JetsParser.AssignmentContext ctx) {
     String variableName = ctx.Var().getText();
-    String stringValue = stripQuotes(ctx.assignedValue.getText());
+    String stringValue = ctx.assignedValue.getText();
     final Symbol symbol = symbolTable.getSymbol(variableName);
     symbol.setValue(getJetValue(symbol, stringValue));
   }
@@ -56,16 +56,19 @@ public class JetsVM extends JetsBaseListener {
     if (symbol.getValue().getValue() instanceof Integer) {
       return new JetValue<Integer>().withValue(Integer.valueOf(stringValue));
     } else {
-      return new JetValue<String>().withValue(stringValue);
+      return new JetValue<String>().withValue(stripQuotes(stringValue));
     }
   }
 
   @Override public void exitModifier(@NotNull JetsParser.ModifierContext ctx) {
     final String variableName = ctx.Var().getText();
     final Symbol symbol = symbolTable.getSymbol(variableName);
-    final Operator operator = Operators.fromString(ctx.operator().getText());
-    final String operand = stripQuotes(ctx.operand().getText());
-    final JetValue result = operator.apply(getJetValue(symbol, symbol.getValue().getValue().toString()), getJetValue(symbol, operand));
+    final Operator operator = Operators.fromString(ctx.OP_CONCATENATE().getText());
+    final String operand = ctx.operandValue.getText();
+    final JetValue result = operator.apply(
+        symbol.getValue(),
+        getJetValue(symbol, operand)
+    );
     symbol.setValue(result);
   }
 

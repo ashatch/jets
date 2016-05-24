@@ -11,4 +11,8 @@ public class JetValue<T> {
     this.value = value;
     return this;
   }
+
+  public String toString() {
+    return this.value.toString();
+  }
 }
