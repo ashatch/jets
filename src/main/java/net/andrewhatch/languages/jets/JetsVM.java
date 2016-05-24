@@ -2,6 +2,7 @@ package net.andrewhatch.languages.jets;
 
 import net.andrewhatch.languages.jets.model.Operator;
 import net.andrewhatch.languages.jets.model.Operators;
+import net.andrewhatch.languages.jets.model.Symbol;
 import net.andrewhatch.languages.jets.model.SymbolTable;
 
 import org.antlr.v4.runtime.misc.NotNull;
@@ -24,28 +25,28 @@ public class JetsVM extends JetsBaseListener {
   @Override public void exitDeclaration(@NotNull JetsParser.DeclarationContext ctx) {
     String variableName = ctx.Var().getText();
     String value = stripQuotes(ctx.assignedValue.getText());
-    symbolTable.addSymbol(variableName, value);
+    symbolTable.addSymbol(new Symbol(variableName, value));
     logger.trace("variable {} assigned to {}", variableName, value);
   }
 
   @Override public void exitAssignment(@NotNull JetsParser.AssignmentContext ctx) {
     String variableName = ctx.Var().getText();
     String value = stripQuotes(ctx.assignedValue.getText());
-    symbolTable.setSymbol(variableName, value);
+    symbolTable.getSymbol(variableName).setValue(value);
   }
 
   @Override public void exitModifier(@NotNull JetsParser.ModifierContext ctx) {
     final String variableName = ctx.Var().getText();
-    final String currentValue = symbolTable.getSymbol(variableName);
+    final Symbol symbol = symbolTable.getSymbol(variableName);
     final Operator operator = Operators.fromString(ctx.operator().getText());
     final String operand = stripQuotes(ctx.operand().getText());
-    final String result = operator.apply(currentValue, operand);
-    symbolTable.setSymbol(variableName, result);
+    final String result = operator.apply(symbol.getValue(), operand);
+    symbol.setValue(result);
   }
 
   @Override public void exitEcho(@NotNull JetsParser.EchoContext ctx) {
     final String variableName = ctx.Var().getText();
-    final String value = symbolTable.getSymbol(variableName);
+    final String value = symbolTable.getSymbol(variableName).getValue();
     System.out.println(value);
   }
 

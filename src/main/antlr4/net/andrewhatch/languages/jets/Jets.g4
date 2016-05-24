@@ -1,6 +1,6 @@
 grammar Jets;
 
-prog
+parse
   : cmd + EOF
   ;
 
