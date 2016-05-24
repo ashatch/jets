@@ -15,24 +15,10 @@ public class JetsVM extends JetsBaseListener {
   private static final Logger logger = LoggerFactory.getLogger(JetsVM.class);
   private final SymbolTable symbolTable;
 
-  private int position = 0;
-
   @Inject
   public JetsVM(final SymbolTable symbolTable) {
     logger.info("Starting JetsVM");
     this.symbolTable = symbolTable;
-  }
-
-  @Override
-  public void exitFd(@NotNull JetsParser.FdContext ctx) {
-    JetsParser.NumberContext number = ctx.number();
-    position += Integer.valueOf(number.getText());
-  }
-
-  @Override
-  public void exitBk(@NotNull JetsParser.BkContext ctx) {
-    JetsParser.NumberContext number = ctx.number();
-    position -= Integer.valueOf(number.getText());
   }
 
   @Override public void exitDeclaration(@NotNull JetsParser.DeclarationContext ctx) {
@@ -40,6 +26,12 @@ public class JetsVM extends JetsBaseListener {
     String value = stripQuotes(ctx.assignedValue.getText());
     symbolTable.addSymbol(variableName, value);
     logger.trace("variable {} assigned to {}", variableName, value);
+  }
+
+  @Override public void exitAssignment(@NotNull JetsParser.AssignmentContext ctx) {
+    String variableName = ctx.Var().getText();
+    String value = stripQuotes(ctx.assignedValue.getText());
+    symbolTable.setSymbol(variableName, value);
   }
 
   @Override public void exitModifier(@NotNull JetsParser.ModifierContext ctx) {
@@ -59,11 +51,6 @@ public class JetsVM extends JetsBaseListener {
 
   private String stripQuotes(final String text) {
     return text.substring(1, text.length() - 1);
-  }
-
-
-  int getPosition() {
-    return position;
   }
 }
 

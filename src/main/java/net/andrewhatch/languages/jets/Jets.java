@@ -30,7 +30,6 @@ public class Jets {
       p.addParseListener(jetsVM);
       p.prog();
 
-      logger.info("Moved to {}", jetsVM.getPosition());
     } catch (IOException ioe) {
       logger.error("IO fault", ioe);
     }

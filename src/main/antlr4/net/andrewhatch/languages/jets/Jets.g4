@@ -5,22 +5,16 @@ prog
   ;
 
 cmd
-  : (fd
-  | bk
+  : (
   | declaration
+  | assignment
   | modifier
   | echo) ';'
   ;
 
-fd
-   : ('fd' | 'forward') number
-   ;
-
-bk
-   : ('bk' | 'backward') number
-   ;
-
 declaration : 'String' variable=Var '=' assignedValue=STRING;
+
+assignment : variable=Var '=' assignedValue=STRING;
 
 modifier : variable=Var operator operand;
 
