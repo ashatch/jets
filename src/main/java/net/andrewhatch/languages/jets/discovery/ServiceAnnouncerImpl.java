@@ -1,5 +1,7 @@
 package net.andrewhatch.languages.jets.discovery;
 
+import net.andrewhatch.languages.jets.model.Participant;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,14 +18,17 @@ public class ServiceAnnouncerImpl implements ServiceAnouncer {
   private final JmDNS jmDNS;
   private final String serviceType;
   private final String serviceName;
+  private final Participant self;
 
   @Inject
   public ServiceAnnouncerImpl(final JmDNS jmDNS,
                               @Named("jets.service.type") final String serviceType,
-                              @Named("jets.service.name") final String serviceName) {
+                              @Named("jets.service.name") final String serviceName,
+                              @Named("jets.self") final Participant self) {
     this.jmDNS = jmDNS;
     this.serviceType = serviceType;
     this.serviceName = serviceName;
+    this.self = self;
     this.announce();
   }
 
@@ -31,7 +36,9 @@ public class ServiceAnnouncerImpl implements ServiceAnouncer {
   public void announce() {
     try {
       final ServiceInfo serviceInfo = getServiceInfo();
-      logger.trace("Announcing service name:{} type:{}", serviceInfo.getName(), serviceInfo.getType());
+      logger.trace("Announcing service name:{} type:{}",
+          serviceInfo.getName(),
+          serviceInfo.getType());
       jmDNS.registerService(serviceInfo);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -39,6 +46,6 @@ public class ServiceAnnouncerImpl implements ServiceAnouncer {
   }
 
   private ServiceInfo getServiceInfo() {
-    return ServiceInfo.create(serviceType, serviceName, 9090, 0, 0, "hello");
+    return ServiceInfo.create(serviceType, self.getNodeIdentifier(), 9090, 0, 0, "");
   }
 }
