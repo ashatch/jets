@@ -6,11 +6,16 @@ import com.google.inject.Guice;
 import net.andrewhatch.languages.jets.modules.CommandLineModule;
 import net.andrewhatch.languages.jets.modules.JetsModule;
 
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.inject.Inject;
 import javax.inject.Named;

@@ -8,6 +8,13 @@
     <artifactId>jets</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -37,6 +44,11 @@
                 <scope>runtime</scope>
                 <optional>true</optional>
             </dependency>
+            <dependency>
+                <groupId>org.jmdns</groupId>
+                <artifactId>jmdns</artifactId>
+                <version>3.5.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -61,6 +73,10 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jmdns</groupId>
+            <artifactId>jmdns</artifactId>
         </dependency>
     </dependencies>
 
