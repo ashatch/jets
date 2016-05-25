@@ -21,4 +21,7 @@ VALUE: NUMBER | STRING;
 NUMBER: [0-9] +;
 STRING: STRING_DELIMITER (~ ["\\])* STRING_DELIMITER;
 
+DOUBLE_SLASHED_LINE: '//' ~[\r\n]* -> skip;
+MULTI_LINE_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
+
 WS: [ \n\r\t\u000B\u000C\u0000]+				-> skip ;

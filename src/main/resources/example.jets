@@ -1,11 +1,18 @@
+/*
+A multi-line comment.
+*/
+
+// Declaration and output
 String z = "boo";
 echo z;
 
+// Declaration, assignment, concatenation, output
 String a = "test";
 a = "test 2";
 a += " thing";
 echo a;
 
+// Integer declaration, assignment, concatenation, output
 Integer b = 3;
 b = 4;
 b += 1;
