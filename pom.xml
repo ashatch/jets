@@ -6,7 +6,7 @@
 
     <groupId>net.andrewhatch.language.jets</groupId>
     <artifactId>jets</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>${jets.version}</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -14,6 +14,9 @@
         <module>netservice</module>
     </modules>
 
+    <properties>
+        <jets.version>0.1.0-SNAPSHOT</jets.version>
+    </properties>
 
     <build>
         <plugins>
