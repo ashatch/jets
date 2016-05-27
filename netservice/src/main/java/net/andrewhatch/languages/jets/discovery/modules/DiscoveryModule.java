@@ -1,11 +1,11 @@
-package net.andrewhatch.languages.jets.modules;
+package net.andrewhatch.languages.jets.discovery.modules;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
-import net.andrewhatch.languages.jets.discovery.ServiceAnnouncerImpl;
-import net.andrewhatch.languages.jets.discovery.ServiceAnouncer;
-import net.andrewhatch.languages.jets.discovery.ServiceDiscovery;
+import net.andrewhatch.languages.jets.discovery.services.ServiceAnnouncerImpl;
+import net.andrewhatch.languages.jets.discovery.services.ServiceAnouncer;
+import net.andrewhatch.languages.jets.discovery.services.ServiceDiscovery;
 import net.andrewhatch.languages.jets.model.Participant;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package net.andrewhatch.languages.jets.discovery;
+package net.andrewhatch.languages.jets.discovery.services;
 
 import net.andrewhatch.languages.jets.model.Participant;
 

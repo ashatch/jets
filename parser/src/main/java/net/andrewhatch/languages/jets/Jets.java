@@ -4,7 +4,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 
 import net.andrewhatch.languages.jets.modules.CommandLineModule;
-import net.andrewhatch.languages.jets.modules.DiscoveryModule;
 import net.andrewhatch.languages.jets.modules.JetsModule;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -58,7 +57,6 @@ public class Jets {
     Guice.createInjector(
         new JetsModule(),
         new CommandLineModule(args),
-        new DiscoveryModule(),
         new AbstractModule() {
           @Override
           protected void configure() {
